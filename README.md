@@ -71,6 +71,3 @@ All actions are logged in a timestamped file under the `reports/` directory for 
 
 Contributions are welcome! Feel free to fork the repository and submit a pull request.
 
----
-
-Secure your system effortlessly with LinShield!
