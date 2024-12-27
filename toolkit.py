@@ -100,6 +100,51 @@ def secure_ssh():
         log_action("SSH Hardening", f"Failed - {e}")
         messagebox.showerror("Error", f"SSH hardening failed: {e}")
 
+def backup_configuration():
+    """Backup current configuration to a file."""
+    try:
+        backup_file = filedialog.asksaveasfilename(
+            defaultextension=".json",
+            filetypes=[("JSON Files", "*.json")],
+            title="Save Backup File"
+        )
+        if not backup_file:
+            return  # User canceled the save dialog
+
+        with open(DEFAULT_RULES_FILE, "r") as config_file:
+            config_data = json.load(config_file)
+
+        with open(backup_file, "w") as backup:
+            json.dump(config_data, backup, indent=4)
+
+        log_action("Backup Configuration", "Success")
+        messagebox.showinfo("Success", "Configuration backup completed successfully.")
+    except Exception as e:
+        log_action("Backup Configuration", f"Failed - {e}")
+        messagebox.showerror("Error", f"Failed to backup configuration: {e}")
+
+def restore_configuration():
+    """Restore configuration from a backup file."""
+    try:
+        backup_file = filedialog.askopenfilename(
+            filetypes=[("JSON Files", "*.json")],
+            title="Select Backup File"
+        )
+        if not backup_file:
+            return  # User canceled the open dialog
+
+        with open(backup_file, "r") as backup:
+            config_data = json.load(backup)
+
+        with open(DEFAULT_RULES_FILE, "w") as config_file:
+            json.dump(config_data, config_file, indent=4)
+
+        log_action("Restore Configuration", "Success")
+        messagebox.showinfo("Success", "Configuration restored successfully.")
+    except Exception as e:
+        log_action("Restore Configuration", f"Failed - {e}")
+        messagebox.showerror("Error", f"Failed to restore configuration: {e}")
+
 def generate_report():
     """Generate a summary report."""
     try:
@@ -120,6 +165,8 @@ def main_gui():
     Button(root, text="Setup Firewall", command=setup_firewall, width=30).pack(pady=5)
     Button(root, text="Remove Unnecessary Services", command=remove_unnecessary_services, width=30).pack(pady=5)
     Button(root, text="Secure SSH", command=secure_ssh, width=30).pack(pady=5)
+    Button(root, text="Backup Configuration", command=backup_configuration, width=30).pack(pady=5)
+    Button(root, text="Restore Configuration", command=restore_configuration, width=30).pack(pady=5)
     Button(root, text="Generate Report", command=generate_report, width=30).pack(pady=5)
 
     Label(root, text="Logs", font=("Arial", 14)).pack(pady=10)
