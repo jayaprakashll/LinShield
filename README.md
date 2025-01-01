@@ -67,7 +67,4 @@ All actions are logged in a timestamped file under the `reports/` directory for 
 [+] Hardening Completed. Logs saved at: reports/report_20241226_100000.log
 ```
 
-## Contributing
-
-Contributions are welcome! Feel free to fork the repository and submit a pull request.
-
+## 👍
